@@ -20,14 +20,14 @@ const {
 	removeContact,
 } = require("../../models/contacts");
 
-router.get("/", async (res, next) => {
+router.get("/", async (req, res, next) => {
 	try {
 		const contacts = await listContacts();
 		res.json({
 			status: "success",
 			code: 200,
 			data: {
-				result: contacts,
+				contacts,
 			},
 		});
 	} catch (error) {
@@ -46,7 +46,7 @@ router.get("/:id", async (req, res, next) => {
 			status: "success",
 			code: 200,
 			data: {
-				result: contact,
+				contact,
 			},
 		});
 	} catch (error) {
@@ -64,7 +64,9 @@ router.post("/", async (req, res, next) => {
 		res.status(201).json({
 			status: "success",
 			code: 201,
-			newContact,
+			data: {
+				newContact,
+			},
 		});
 	} catch (error) {
 		next(error);
@@ -79,13 +81,15 @@ router.put("/:id", async (req, res, next) => {
 		}
 		const { id } = req.params;
 		const updateParam = await updateContact(id, req.body);
-		if (!updateParam) {
+		if (!id) {
 			throw new NotFound(`Contact with id=${id} not found`);
 		}
 		res.json({
 			status: "success",
 			code: 200,
-			updateParam,
+			data: {
+				updateParam,
+			},
 		});
 	} catch (error) {
 		next(error);
