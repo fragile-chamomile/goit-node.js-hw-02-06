@@ -40,16 +40,37 @@ const addContact = async ({ name, email, phone }) => {
 	}
 };
 
+// const updateContact = async (id, { name, email, phone }) => {
+// 	try {
+// 		const contacts = await listContacts();
+// 		const contactIndex = contacts.findIndex((item) => item.id === id);
+// 		if (contactIndex !== -1) {
+// 			contacts[contactIndex].name = name;
+// 			contacts[contactIndex].email = email;
+// 			contacts[contactIndex].phone = phone;
+// 			await fs.writeFile(contactsPath, JSON.stringify(contacts));
+// 			return contacts[contactIndex];
+// 		}
+// 	} catch (error) {
+// 		console.log(`Error: ${error}`);
+// 	}
+// };
+
 const updateContact = async (id, { name, email, phone }) => {
 	try {
 		const contacts = await listContacts();
 		const contactIndex = contacts.findIndex((item) => item.id === id);
-		if (contactIndex !== -1) {
-			contacts[contactIndex].name = name;
-			contacts[contactIndex].email = email;
-			contacts[contactIndex].phone = phone;
-			await fs.writeFile(contactsPath, JSON.stringify(contacts));
+		if (contactIndex === -1) {
+			return null;
 		}
+		contacts[contactIndex] = {
+			id,
+			name,
+			email,
+			phone,
+		};
+		await fs.writeFile(contactsPath, JSON.stringify(contacts));
+		return contacts[contactIndex];
 	} catch (error) {
 		console.log(`Error: ${error}`);
 	}
