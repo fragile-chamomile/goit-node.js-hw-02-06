@@ -29,7 +29,11 @@ const joiSchema = Joi.object({
 		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
 		.required(),
 	phone: Joi.string().required(),
-	favorite: Joi.bool(),
+	favorite: Joi.bool().valid(true, false),
 });
 
-module.exports = { Contact, joiSchema };
+const favoriteJoiSchema = Joi.object({
+	favorite: Joi.bool().valid(true, false).required(),
+});
+
+module.exports = { Contact, joiSchema, favoriteJoiSchema };
