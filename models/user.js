@@ -39,7 +39,6 @@ const joiSignUpSchema = Joi.object({
 		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
 		.required(),
 	subscription: Joi.string(),
-	token: Joi.string(),
 });
 
 const joiLogInSchema = Joi.object({
@@ -47,7 +46,6 @@ const joiLogInSchema = Joi.object({
 	email: Joi.string()
 		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
 		.required(),
-	token: Joi.string(),
 });
 
 module.exports = { User, joiSignUpSchema, joiLogInSchema };
