@@ -20,4 +20,6 @@ router.patch(
 	ctrlWrapper(ctrl.updateAvatar)
 );
 
+router.delete("/avatars", auth, ctrlWrapper(ctrl.removeAvatar));
+
 module.exports = router;
