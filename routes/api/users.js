@@ -11,6 +11,8 @@ router.post("/login", validation(joiLogInSchema), ctrlWrapper(ctrl.logIn));
 
 router.get("/current", auth, ctrlWrapper(ctrl.getCurrent));
 
+router.patch("/", auth, ctrlWrapper(ctrl.updateSubscription));
+
 router.get("/logout", auth, ctrlWrapper(ctrl.logOut));
 
 router.patch(
