@@ -31,7 +31,7 @@ const Contact = model("contact", contactSchema);
 const joiSchema = Joi.object({
 	name: Joi.string().min(3).required(),
 	email: Joi.string()
-		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "ua"] } })
 		.required(),
 	phone: Joi.string().required(),
 	favorite: Joi.bool().valid(true, false),
