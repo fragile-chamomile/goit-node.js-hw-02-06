@@ -1,5 +1,4 @@
 const { User } = require("../../models/user");
-const path = require("path");
 const fs = require("fs/promises");
 const gravatar = require("gravatar");
 

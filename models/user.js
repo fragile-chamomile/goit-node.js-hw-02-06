@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-const bcrypt = require("bcryptjs");
 
 const emailCheck =
 	/^[a-zA-Z0-9_.+]*[a-zA-Z][a-zA-Z0-9_.+]*@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -31,6 +30,14 @@ const userSchema = Schema(
 			type: String,
 			required: true,
 		},
+		verify: {
+			type: Boolean,
+			default: false,
+		},
+		verificationToken: {
+			type: String,
+			required: [true, "Verify token is required"],
+		},
 	},
 	{ versionKey: false, timestamps: true }
 );
@@ -40,7 +47,7 @@ const User = model("user", userSchema);
 const joiSignUpSchema = Joi.object({
 	password: Joi.string().min(6).required(),
 	email: Joi.string()
-		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "ua"] } })
 		.required(),
 	subscription: Joi.string(),
 });
@@ -48,8 +55,19 @@ const joiSignUpSchema = Joi.object({
 const joiLogInSchema = Joi.object({
 	password: Joi.string().min(6).required(),
 	email: Joi.string()
-		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "ua"] } })
 		.required(),
 });
 
-module.exports = { User, joiSignUpSchema, joiLogInSchema };
+const joiReVerificationSchema = Joi.object({
+	email: Joi.string()
+		.email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "ua"] } })
+		.required(),
+});
+
+module.exports = {
+	User,
+	joiSignUpSchema,
+	joiLogInSchema,
+	joiReVerificationSchema,
+};
